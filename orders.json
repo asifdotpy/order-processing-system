@@ -1,0 +1,19 @@
+[
+    {
+        "order_id": 101,
+        "customer": "Alice",
+        "items": [
+            {"name": "Laptop", "price": 1000, "quantity": 1},
+            {"name": "Mouse", "price": 50, "quantity": 2}
+        ],
+        "discount_code": "SUMMER10"
+    },
+    {
+        "order_id": 102,
+        "customer": "Bob",
+        "items": [
+            {"name": "Monitor", "price": 200, "quantity": 2}
+        ],
+        "discount_code": null
+    }
+]
