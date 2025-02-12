@@ -20,7 +20,7 @@ A Python-based system to process customer orders, apply discounts, and generate 
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/order-processing-system.git
+   git clone https://github.com/asifdotpy/order-processing-system.git
    ```
 2. Navigate to the project directory:
    ```bash
