@@ -1,173 +1,114 @@
-```markdown
-# Order Processing System
+# Automated Order Processing System
 
-A Python-based order processing system that calculates order totals, applies discounts, and generates invoice summaries.
+A Python-based system to process customer orders, apply discounts, and generate invoice summaries.
 
 ## Features
 
-- Load and process orders from JSON files
-- Apply discount codes to orders
-- Parallel processing of orders using `ThreadPoolExecutor`
-- Optional progress bar support using `tqdm`
-- Comprehensive error handling and logging with configurable levels
-- Generate invoice summary reports with detailed order totals
+- Load orders from a JSON file
+- Apply discounts using predefined codes
+- Calculate totals before and after discounts
+- Parallel order processing with `ThreadPoolExecutor`
+- Error handling and logging
+- Generate an invoice summary report
 
 ## Requirements
 
-- Python 3.6 or higher
-- Standard library modules only; if you want a progress bar, install [`tqdm`](https://pypi.org/project/tqdm/) via pip:
-  ```bash
-  pip install tqdm
-  ```
+- **Python 3.6 or higher**
+- No external dependencies required
 
 ## Installation
 
-1. Clone the repository.
-2. Create a virtual environment:
+1. Clone the repository:
    ```bash
-   python -m venv venv
+   git clone https://github.com/yourusername/order-processing-system.git
    ```
-3. Activate the virtual environment:
-   - On Windows:
-     ```bash
-     venv\Scripts\activate
-     ```
-   - On Unix or macOS:
-     ```bash
-     source venv/bin/activate
-     ```
+2. Navigate to the project directory:
+   ```bash
+   cd order-processing-system
+   ```
 
 ## Usage
 
-The system supports several command-line arguments to customize its behavior.
+### Step 1: Prepare the Input File
+- Create an `orders.json` file in the project root (see [Input Format](#input-format) for details).
 
-### Basic Usage
+### Step 2: Run the Processor
+```bash
+python order_processor.py
+```
+- This reads `orders.json` and generates `invoice_summary.txt` by default.
 
-1. Ensure you have a valid `orders.json` file in the project directory (see below for the required format).
-2. Run the script:
-   ```bash
-   python order_processor.py
-   ```
-   This uses the default input (`orders.json`), output (`invoice_summary.txt`), logging level (`INFO`), and no progress bar.
+## Input Format
 
-### Advanced Options
-
-You can customize the execution using the following options:
-
-- **Specify Input and Output Files:**
-  ```bash
-  python order_processor.py --input my_orders.json --output my_invoice.txt
-  ```
-- **Set Logging Level:**
-  ```bash
-  python order_processor.py --log DEBUG
-  ```
-- **Show Progress Bar (if `tqdm` is installed):**
-  ```bash
-  python order_processor.py --progress
-  ```
-
-## Input File Format
-
-The `orders.json` file should contain a JSON array of order objects. Each order object must have the following structure:
-
+The `orders.json` file must contain an array of order objects. Example:
 ```json
 [
   {
     "order_id": 101,
     "customer": "Alice",
     "items": [
-      {
-        "name": "Laptop",
-        "price": 1000,
-        "quantity": 1
-      },
-      {
-        "name": "Mouse",
-        "price": 50,
-        "quantity": 2
-      }
+      {"name": "Laptop", "price": 1000, "quantity": 1},
+      {"name": "Mouse", "price": 50, "quantity": 2}
     ],
-    "discount_code": "SUMMER10"  // Optional: use null if no discount applies
+    "discount_code": "SUMMER10"
   },
   {
     "order_id": 102,
     "customer": "Bob",
     "items": [
-      {
-        "name": "Monitor",
-        "price": 200,
-        "quantity": 2
-      }
+      {"name": "Monitor", "price": 200, "quantity": 2}
     ],
     "discount_code": null
   }
 ]
 ```
 
-**Note:**  
-- The file is simply an array (not wrapped in an object).
-- Each item should have keys: `name`, `price`, and `quantity`.
+**Notes**:
+- `discount_code` is optional. Use `null` for no discount.
+- Prices and quantities must be non-negative.
 
-## Available Discount Codes
-
-- **SUMMER10:** 10% discount
-- **WELCOME5:** 5% discount
-
-Any discount code not listed will be treated as 0% discount.
+## Discount Codes
+- `SUMMER10`: 10% discount
+- `WELCOME5`: 5% discount  
+*(Add more codes in the `DISCOUNTS` dictionary in `order_processor.py`)*
 
 ## Output
 
-The script generates an invoice summary report (default: `invoice_summary.txt`) containing:
-
-- Order ID
-- Customer name
-- Total before discount
-- Total after discount
-
-Example output:
-
+The system generates `invoice_summary.txt` with lines like:
 ```
 Order ID: 101 | Customer: Alice | Total Before Discount: $1100.00 | Total After Discount: $990.00
 Order ID: 102 | Customer: Bob | Total Before Discount: $400.00 | Total After Discount: $400.00
 ```
 
-## Error Handling & Logging
-
-- The system logs errors and warnings with timestamps.
-- Common issues include:
-  - Missing or invalid JSON files.
-  - Orders with missing required fields (`order_id`, `customer`, or `items`).
-  - Items with invalid or negative price/quantity.
-- Logging level can be adjusted via the `--log` command-line option.
+## Error Handling
+- Logs errors to the console (e.g., invalid JSON, missing fields).
+- Skips orders with critical issues (e.g., negative prices).
 
 ## Testing
-
-Unit tests are provided to ensure the system works as expected, including edge cases. Run the tests with:
-
-```bash
-python -m unittest discover
-```
-
-or
-
+Run unit tests with:
 ```bash
 python test_order_processor.py
 ```
 
-## Contributing
-
-1. Fork the repository.
-2. Create a feature branch.
-3. Commit your changes with clear messages.
-4. Push your branch.
-5. Create a Pull Request.
-
 ## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+MIT License. See [LICENSE](LICENSE) for details.
 ```
 
----
+### Key Changes:
+1. **Removed Unsupported Features**:  
+   - Deleted references to `tqdm`, progress bars, and CLI arguments (not in the code).
+   - Simplified the "Features" section to match the actual implementation.
 
-This updated README now provides clear instructions for using the new command‑line options, explains the correct JSON input format, and gives developers all the necessary details about error handling, logging, and testing.
+2. **Streamlined Instructions**:  
+   - Removed virtual environment setup (optional for a README).
+   - Focused on core usage steps.
+
+3. **Alignment with Code**:  
+   - Removed mentions of configurable logging levels (code uses fixed `ERROR` logging).
+   - Clarified that `orders.json` and `invoice_summary.txt` are hardcoded.
+
+4. **Formatting Improvements**:  
+   - Simplified sections for readability.
+   - Added a direct example for running tests.  
+
+This version ensures the README accurately reflects the provided code and avoids misleading users. 🚀
